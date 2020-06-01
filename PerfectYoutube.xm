@@ -20,6 +20,7 @@ static BOOL hideInboxTab;
 static BOOL hideLibraryTab;
 static BOOL hideStories;
 static BOOL disableHints;
+static BOOL showStatusBarOnLandscape;
 
 // ENABLE BACKGROUND PLAYBACK
 
@@ -364,6 +365,30 @@ static BOOL disableHints;
 
 %end
 
+// SHOW STATUS BAR ON LANDSCAPE
+
+%group showStatusBarOnLandscapeGroup
+
+	%hook YTSettings
+
+	- (BOOL)showStatusBarWithOverlay
+	{
+		return YES;
+	}
+
+	%end
+
+	%hook UIStatusBarManager
+
+	- (BOOL)_updateVisibilityForWindow: (id)arg1 targetOrientation: (long long)arg2 animationParameters: (id*)arg3
+	{
+		return %orig(NULL, arg2, arg3);
+	}
+
+	%end
+
+%end
+
 %ctor
 {
 	@autoreleasepool
@@ -387,6 +412,7 @@ static BOOL disableHints;
 			@"hideSubscriptionsTab": @NO,
 			@"hideInboxTab": @NO,
 			@"hideLibraryTab": @NO,
+			@"showStatusBarOnLandscape": @NO,
     	}];
 
 		backgroundPlayback = [pref boolForKey: @"backgroundPlayback"];
@@ -406,6 +432,7 @@ static BOOL disableHints;
 		hideSubscriptionsTab = [pref boolForKey: @"hideSubscriptionsTab"];
 		hideInboxTab = [pref boolForKey: @"hideInboxTab"];
 		hideLibraryTab = [pref boolForKey: @"hideLibraryTab"];
+		showStatusBarOnLandscape = [pref boolForKey: @"showStatusBarOnLandscape"];
 
         if(backgroundPlayback) %init(backgroundPlaybackGroup);
         if(disableInVideoAds) %init(disableInVideoAdsGroup);
@@ -421,6 +448,6 @@ static BOOL disableHints;
         if(showProgressBarInVideo) %init(showProgressBarInVideoGroup);
         if(hideComments) %init(hideCommentsGroup);
         if(hideExploreTab || hideSubscriptionsTab || hideInboxTab || hideLibraryTab) %init(hideTabGroup);
-		%init;
+		if(showStatusBarOnLandscape) %init(showStatusBarOnLandscapeGroup);
     }
 }

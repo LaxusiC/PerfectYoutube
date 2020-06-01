@@ -62,6 +62,18 @@
 			<key>defaults</key>
 			<string>com.johnzaro.perfectyoutubeprefs</string>
 			<key>key</key>
+			<string>showStatusBarOnLandscape</string>
+			<key>label</key>
+			<string>Show Status Bar On Landscape</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.johnzaro.perfectyoutubeprefs</string>
+			<key>key</key>
 			<string>noPopupsOnVideoEnd</string>
 			<key>label</key>
 			<string>No Pop Ups On Video End</string>
